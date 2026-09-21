@@ -30,6 +30,9 @@ internal class AspNetOptions
     public ScaffolderOption<bool> Views { get; }
     public ScaffolderOption<bool> Overwrite { get; }
     public ScaffolderOption<bool> UseExistingApplication { get; }
+    public ScaffolderOption<string> UserClass { get; }
+    public ScaffolderOption<string> IdentityEndpointsClass { get; }
+    public ScaffolderOption<string> OutputDirectory { get; }
 
     private ScaffolderOption<string>? _username = null;
     private ScaffolderOption<string>? _tenantId = null;
@@ -194,6 +197,31 @@ internal class AspNetOptions
             PickerType = InteractivePickerType.YesNo
         };
 
+        UserClass = new ScaffolderOption<string>
+        {
+            DisplayName = AspnetStrings.Options.UserClass.DisplayName,
+            CliOption = Constants.CliOptions.UserClassOption,
+            Description = AspnetStrings.Options.UserClass.Description,
+            Required = false,
+            PickerType = InteractivePickerType.ClassPicker
+        };
+
+        IdentityEndpointsClass = new ScaffolderOption<string>
+        {
+            DisplayName = AspnetStrings.Options.IdentityEndpointsClass.DisplayName,
+            CliOption = Constants.CliOptions.NameOption,
+            Description = AspnetStrings.Options.IdentityEndpointsClass.Description,
+            Required = false
+        };
+
+        OutputDirectory = new ScaffolderOption<string>
+        {
+            DisplayName = AspnetStrings.Options.OutputDirectory.DisplayName,
+            CliOption = Constants.CliOptions.OutputDirectoryOption,
+            Description = AspnetStrings.Options.OutputDirectory.Description,
+            Required = false
+        };
+
         UseExistingApplication = new ScaffolderOption<bool>
         {
             DisplayName = AspnetStrings.Options.Application.DisplayName,
@@ -204,7 +232,7 @@ internal class AspNetOptions
         };
     }
 
-    public ScaffolderOption<string> Username => _username ??=  new()
+    public ScaffolderOption<string> Username => _username ??= new()
     {
         DisplayName = AspnetStrings.Options.Username.DisplayName,
         CliOption = Constants.CliOptions.UsernameOption,

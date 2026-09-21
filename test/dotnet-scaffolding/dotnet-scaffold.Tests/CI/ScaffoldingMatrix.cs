@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Tools.Scaffold.Tests.CI;
 /// Single source of truth for the CI scaffolding permutation matrix.
 /// Defines which scaffold families are tested against which target frameworks,
 /// and which combinations are explicitly unsupported.
-/// 
+///
 /// To add a new framework or scaffolder family, update the arrays below and
 /// add corresponding integration tests. The <see cref="CliOptionInventoryTests"/>
 /// coverage gate will fail if any new options are introduced without test coverage.
@@ -37,6 +37,7 @@ public static class ScaffoldingMatrix
         "area",
         "blazor-identity",
         "identity",
+        "identity-endpoints",
         "entra-id"
     ];
 

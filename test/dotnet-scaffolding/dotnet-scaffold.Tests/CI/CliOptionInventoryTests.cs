@@ -47,6 +47,8 @@ public class CliOptionInventoryTests
         Constants.CliOptions.TenantIdOption,            // --tenantId
         Constants.CliOptions.UseExistingApplicationOption, // --use-existing-application
         Constants.CliOptions.ApplicationIdOption,       // --applicationId
+        Constants.CliOptions.UserClassOption,            // --user-class
+        Constants.CliOptions.OutputDirectoryOption,      // --output-dir
     };
 
     /// <summary>
@@ -84,6 +86,7 @@ public class CliOptionInventoryTests
         ["area"] = new() { "--project", "--name" },
         ["blazor-identity"] = new() { "--project", "--dataContext", "--dbProvider", "--overwrite", "--prerelease" },
         ["identity"] = new() { "--project", "--dataContext", "--dbProvider", "--overwrite", "--prerelease" },
+        ["identity-endpoints"] = new() { "--project", "--user-class", "--name", "--output-dir", "--overwrite" },
         ["entra-id"] = new() { "--username", "--project", "--tenantId", "--use-existing-application", "--applicationId" },
     };
 
@@ -136,6 +139,9 @@ public class CliOptionInventoryTests
             options.Username.CliOption!,
             options.TenantId.CliOption!,
             options.ApplicationId.CliOption!,
+            options.UserClass.CliOption!,
+            options.IdentityEndpointsClass.CliOption!,
+            options.OutputDirectory.CliOption!,
         };
 
         var missingFromManifest = declaredFlags.Except(AllAspNetCliFlags).ToList();
@@ -191,6 +197,9 @@ public class CliOptionInventoryTests
             options.Username.CliOption!,
             options.TenantId.CliOption!,
             options.ApplicationId.CliOption!,
+            options.UserClass.CliOption!,
+            options.IdentityEndpointsClass.CliOption!,
+            options.OutputDirectory.CliOption!,
         };
 
         var staleFlags = AllAspNetCliFlags.Except(declaredFlags).ToList();

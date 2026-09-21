@@ -45,6 +45,8 @@ internal class Constants
         public const string TenantIdOption = "--tenantId";
         public const string UseExistingApplicationOption = "--use-existing-application";
         public const string ApplicationIdOption = "--applicationId";
+        public const string UserClassOption = "--user-class";
+        public const string OutputDirectoryOption = "--output-dir";
     }
 
     /// <summary>
