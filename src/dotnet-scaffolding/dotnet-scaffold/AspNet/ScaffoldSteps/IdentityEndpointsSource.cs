@@ -44,7 +44,6 @@ internal static class IdentityEndpointsSource
 
                     var timeProvider = endpoints.ServiceProvider.GetRequiredService<TimeProvider>();
                     var bearerTokenOptions = endpoints.ServiceProvider.GetRequiredService<IOptionsMonitor<BearerTokenOptions>>();
-                    var emailSender = endpoints.ServiceProvider.GetRequiredService<IEmailSender<TUser>>();
                     var linkGenerator = endpoints.ServiceProvider.GetRequiredService<LinkGenerator>();
                     string? confirmEmailEndpointName = null;
 
@@ -181,6 +180,7 @@ internal static class IdentityEndpointsSource
                         {
                             var code = await userManager.GeneratePasswordResetTokenAsync(user);
                             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var emailSender = services.GetRequiredService<IEmailSender<TUser>>();
                             await emailSender.SendPasswordResetCodeAsync(user, request.Email, HtmlEncoder.Default.Encode(code));
                         }
 
@@ -352,6 +352,7 @@ internal static class IdentityEndpointsSource
 
                         var confirmEmailUrl = linkGenerator.GetUriByName(context, confirmEmailEndpointName, routeValues)
                             ?? throw new NotSupportedException($"Could not find endpoint named '{confirmEmailEndpointName}'.");
+                        var emailSender = context.RequestServices.GetRequiredService<IEmailSender<TUser>>();
                         await emailSender.SendConfirmationLinkAsync(user, email, HtmlEncoder.Default.Encode(confirmEmailUrl));
                     }
 
