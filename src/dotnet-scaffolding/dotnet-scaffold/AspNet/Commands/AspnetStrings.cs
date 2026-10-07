@@ -126,6 +126,12 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet.Commands
             internal const string IdentityExample1Description = "Add Identity with SQL Server:";
             internal const string IdentityExample2 = "dotnet scaffold aspnet identity --project C:/MyApp/MyApp.csproj --database-provider SQLite --overwrite";
             internal const string IdentityExample2Description = "Add Identity with SQLite, overwriting existing files:";
+
+            internal const string Endpoints = "identity-endpoints";
+            internal const string EndpointsDisplayName = "ASP.NET Core Identity Endpoints";
+            internal const string EndpointsDescription = "Scaffold customizable ASP.NET Core Identity API endpoints into a project.";
+            internal const string EndpointsExample = "dotnet scaffold aspnet identity-endpoints --project C:/MyApi/MyApi.csproj";
+            internal const string EndpointsExampleDescription = "Scaffold the configured Identity API endpoints for customization:";
         }
 
         internal class EntraId
@@ -239,6 +245,24 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet.Commands
             {
                 internal const string DisplayName = "Overwrite existing files?";
                 internal const string Description = "Overwrite existing Identity files if they already exist. Use --overwrite to enable, omit the flag to preserve existing files (default: false).";
+            }
+
+            internal static class UserClass
+            {
+                internal const string DisplayName = "Identity user class";
+                internal const string Description = "Identity user class used by AddIdentityApiEndpoints and MapIdentityApi. Inferred from the existing mapping when omitted.";
+            }
+
+            internal static class IdentityEndpointsClass
+            {
+                internal const string DisplayName = "Identity endpoints class name";
+                internal const string Description = "Name of the generated Identity API endpoint route builder extensions class.";
+            }
+
+            internal static class OutputDirectory
+            {
+                internal const string DisplayName = "Output directory";
+                internal const string Description = "Project-relative directory for the generated Identity endpoints file.";
             }
 
             internal static class Username

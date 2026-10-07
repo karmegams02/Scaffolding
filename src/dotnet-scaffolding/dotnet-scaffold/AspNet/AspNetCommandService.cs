@@ -30,6 +30,7 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet
                 typeof(DetectBlazorWasmStep),
                 typeof(DotnetNewScaffolderStep),
                 typeof(EmptyControllerScaffolderStep),
+                typeof(IdentityEndpointsScaffolderStep),
                 typeof(NuGetVersionService),
                 typeof(RegisterAppStep),
                 typeof(UpdateAppAuthorizationStep),
@@ -38,6 +39,7 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet
                 typeof(ValidateEfControllerStep),
                 typeof(ValidateEntraIdStep),
                 typeof(ValidateIdentityStep),
+                typeof(ValidateIdentityEndpointsStep),
                 typeof(ValidateMinimalApiStep),
                 typeof(ValidateRazorPagesStep),
                 typeof(ValidateViewsStep),
@@ -315,13 +317,11 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet
                     step.BlazorScenario = true;
                 })
                 .WithBlazorIdentityAddPackagesStep()
-                .WithBlazorIdentityClientAddPackagesStep()
                 .WithIdentityDbContextStep()
                 .WithAspNetConnectionStringStep()
                 .WithBlazorIdentityTextTemplatingStep()
-                .WithBlazorIdentityPasskeyJavaScriptStep()
-                .WithBlazorIdentityCodeChangeStep()
-                .WithBlazorIdentityClientCodeChangeStep();
+                .WithBlazorIdentityStaticFilesStep()
+                .WithBlazorIdentityCodeChangeStep();
 
             _builder.AddScaffolder(ScaffolderCatagory.AspNet, AspnetStrings.Identity.Name)
                 .WithDisplayName(AspnetStrings.Identity.DisplayName)
@@ -345,6 +345,25 @@ namespace Microsoft.DotNet.Tools.Scaffold.AspNet
                 .WithAspNetConnectionStringStep()
                 .WithIdentityTextTemplatingStep()
                 .WithIdentityCodeChangeStep();
+
+            _builder.AddScaffolder(ScaffolderCatagory.AspNet, AspnetStrings.Identity.Endpoints)
+                .WithDisplayName(AspnetStrings.Identity.EndpointsDisplayName)
+                .WithCategory(AspnetStrings.Catagories.Identity)
+                .WithCategory(AspnetStrings.Catagories.API)
+                .WithDescription(AspnetStrings.Identity.EndpointsDescription)
+                .WithExample(AspnetStrings.Identity.EndpointsExample, AspnetStrings.Identity.EndpointsExampleDescription)
+                .WithOptions([options.Project, options.UserClass, options.IdentityEndpointsClass, options.OutputDirectory, options.Overwrite])
+                .WithStep<ValidateIdentityEndpointsStep>(config =>
+                {
+                    var step = config.Step;
+                    var context = config.Context;
+                    step.Project = context.GetOptionResult(options.Project);
+                    step.UserClass = context.GetOptionResult(options.UserClass);
+                    step.EndpointsClass = context.GetOptionResult(options.IdentityEndpointsClass);
+                    step.OutputDirectory = context.GetOptionResult(options.OutputDirectory);
+                    step.Overwrite = context.GetOptionResult(options.Overwrite);
+                })
+                .WithStep<IdentityEndpointsScaffolderStep>();
 
             _builder.AddScaffolder(ScaffolderCatagory.AspNet, AspnetStrings.EntraId.Name)
                     .WithDisplayName(AspnetStrings.EntraId.DisplayName)
