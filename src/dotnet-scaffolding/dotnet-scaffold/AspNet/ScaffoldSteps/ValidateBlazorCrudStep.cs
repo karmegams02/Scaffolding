@@ -3,6 +3,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.DotNet.Scaffolding.Core.Model;
 using Microsoft.DotNet.Scaffolding.Core.Scaffolders;
 using Microsoft.DotNet.Scaffolding.Core.Steps;
 using Microsoft.DotNet.Scaffolding.Internal.Services;
@@ -119,6 +120,23 @@ internal class ValidateBlazorCrudStep : ScaffoldStep
             }
 
             codeModifierProperties = AspNetDbContextHelper.GetDbContextCodeModifierProperties(blazorCrudModel.DbContextInfo);
+        }
+
+        if (blazorCrudModel.ProjectInfo.LowestSupportedTargetFramework.IsNetVersionOrLater(9))
+        {
+            var appPath = Path.Combine(Path.GetDirectoryName(blazorCrudSettings.Project)!, "Components", "App.razor");
+            if (_fileSystem.FileExists(appPath))
+            {
+                var appContent = _fileSystem.ReadAllText(appPath);
+                var renderMode = new[] { "InteractiveAuto", "InteractiveServer", "InteractiveWebAssembly" }
+                    .FirstOrDefault(mode => appContent.Contains($"@rendermode=\"{mode}\"", StringComparison.Ordinal) ||
+                        appContent.Contains($"@rendermode=\"@{mode}\"", StringComparison.Ordinal));
+                if (renderMode is not null)
+                {
+                    blazorCrudModel.ProjectInfo.CodeChangeOptions!.Add("GlobalInteractive");
+                    codeModifierProperties.Add("$(BlazorRenderMode)", renderMode);
+                }
+            }
         }
 
         context.Properties.Add(Constants.StepConstants.CodeModifierProperties, codeModifierProperties);

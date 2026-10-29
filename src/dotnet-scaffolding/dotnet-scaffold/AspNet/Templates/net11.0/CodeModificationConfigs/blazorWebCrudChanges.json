@@ -1,6 +1,25 @@
 {
   "Files": [
     {
+      "FileName": "Components\\App.razor",
+      "Options": [ "GlobalInteractive" ],
+      "Replacements": [
+        {
+          "ReplaceSnippet": [ "@rendermode=\"$(BlazorRenderMode)\"" ],
+          "Block": "@rendermode=\"PageRenderMode\""
+        },
+        {
+          "ReplaceSnippet": [ "@rendermode=\"@$(BlazorRenderMode)\"" ],
+          "Block": "@rendermode=\"PageRenderMode\""
+        },
+        {
+          "ReplaceSnippet": [ "</html>" ],
+          "FileBlock": "..\\..\\Shared\\CodeBlocks\\IdentityPageRenderMode.razor",
+          "CheckBlock": "AcceptsInteractiveRouting()"
+        }
+      ]
+    },
+    {
       "FileName": "Program.cs",
       "Options": [
         "EfScenario"
